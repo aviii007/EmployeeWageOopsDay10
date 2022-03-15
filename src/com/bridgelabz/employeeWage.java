@@ -2,7 +2,7 @@ package com.bridgelabz;
 
 import java.util.Scanner;
 
-public class employeeWage {
+public class employeeWage implements iEmployeeWage {
     int counter=0;
     int numberOfCompanies;
     companyEmployeeWage[] companyEmployeeWageArray;
