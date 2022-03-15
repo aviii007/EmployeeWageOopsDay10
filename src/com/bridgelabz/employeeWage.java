@@ -49,10 +49,6 @@ public class employeeWage implements iEmployeeWage {
         int result=(int)Math.floor((Math.random()*10)%3);
         return result;
     }
-    public void print(int totalDays,int workHours,int totalHours,int dailySalary,int totalSalary)
-    {
-        System.out.println(totalDays+"\t"+workHours+"\t\t"+totalHours+"\t\t"+dailySalary+"\t\t"+totalSalary);
-    }
     public int employeeWages(companyEmployeeWage companyEmployee)
     {
         int check=0,workHours=0,dailySalary=0,totalSalary=0,totalHours=0,totalDays=0;
@@ -64,26 +60,30 @@ public class employeeWage implements iEmployeeWage {
             workHours=getWorkingHours(check);
             totalHours=totalHours+workHours;
             dailySalary=workHours*companyEmployee.ratePerHour;
-            totalSalary=totalHours*companyEmployee.ratePerHour;
-            print(totalDays,workHours,totalHours,dailySalary,totalSalary);
+            companyEmployee.addDailyWage(dailySalary);
+        }
+        totalSalary=totalHours*companyEmployee.ratePerHour;
+        for(int i=0;i<companyEmployee.dailyWage.size();i++)
+        {
+            System.out.println("Wage on day "+(i+1)+" is "+companyEmployee.dailyWage.get(i));
         }
         return totalSalary;
     }
     public static void main(String[] args) {
-        Scanner sc=new Scanner(System.in);
+        Scanner scanner=new Scanner(System.in);
         System.out.println("Enter no.of companies:");
-        int n=sc.nextInt();
+        int n=scanner.nextInt();
         iEmployeeWage employeeWageList=new employeeWage(n);
         for(int counter=1;counter<=n;counter++)
         {
             System.out.println("Enter name of company:");
-            String company=sc.next();
+            String company=scanner.next();
             System.out.println("Enter rate per hour:");
-            int ratePerHour=sc.nextInt();
+            int ratePerHour=scanner.nextInt();
             System.out.println("Enter number of working days:");
-            int days=sc.nextInt();
+            int days=scanner.nextInt();
             System.out.println("Enter maximum working hours:");
-            int maxHours=sc.nextInt();
+            int maxHours=scanner.nextInt();
             employeeWageList.addCompany(company,ratePerHour,days,maxHours);
         }
         employeeWageList.computeWages();
