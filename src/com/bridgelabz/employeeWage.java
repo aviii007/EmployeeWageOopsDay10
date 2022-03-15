@@ -10,15 +10,20 @@ public class employeeWage {
         int ratePerHour=20;
         int hours=0,salary=0;
         int check=(int)Math.floor((Math.random()*10)%3);
-        if(check==isFullTime)
+        switch(check)
         {
-            hours=8;
-        }
-        else if(check==isPartTime)
-        {
-            hours=4;
+            case 2:
+                hours=8;
+                break;
+            case 1:
+                hours=4;
+                break;
+            default:
+                hours=0;
+                break;
         }
         salary=hours*ratePerHour;
         System.out.println("Salary is:"+salary);
     }
+
 }
