@@ -1,21 +1,26 @@
 package com.bridgelabz;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class employeeWage implements iEmployeeWage {
     int counter=0;
     int numberOfCompanies;
     ArrayList<companyEmployeeWage> companyEmployeeWageList;
+    static Map<String,companyEmployeeWage> companyEmployeeWageMap;
     employeeWage(int n)
     {
         this.numberOfCompanies=n;
         companyEmployeeWageList=new ArrayList<companyEmployeeWage>();
+        companyEmployeeWageMap=new HashMap<String,companyEmployeeWage>();
     }
     public void addCompany(String company,int ratePerHour,int days,int maxHours)
     {
         companyEmployeeWage companyempwage=new companyEmployeeWage(company,ratePerHour,days,maxHours);
         companyEmployeeWageList.add(companyempwage);
+        companyEmployeeWageMap.put(company, companyempwage);
     }
     public void computeWages()
     {
@@ -26,6 +31,10 @@ public class employeeWage implements iEmployeeWage {
             System.out.println(companyempwage);
             System.out.println("----------------------------");
         }
+    }
+    public static int getTotalWage(String company)
+    {
+        return companyEmployeeWageMap.get(company).totalWage;
     }
     public int getWorkingHours(int check)
     {
@@ -52,7 +61,6 @@ public class employeeWage implements iEmployeeWage {
     public int employeeWages(companyEmployeeWage companyEmployee)
     {
         int check=0,workHours=0,dailySalary=0,totalSalary=0,totalHours=0,totalDays=0;
-        System.out.println("Day\tDaily Hours\tTotal Hours\tDaily Wage\tTotal Wage");
         while(totalHours<companyEmployee.maxHours && totalDays<companyEmployee.days)
         {
             totalDays+=1;
@@ -70,23 +78,28 @@ public class employeeWage implements iEmployeeWage {
         return totalSalary;
     }
     public static void main(String[] args) {
-        Scanner scanner=new Scanner(System.in);
+        Scanner sc=new Scanner(System.in);
         System.out.println("Enter no.of companies:");
-        int n=scanner.nextInt();
+        int n=sc.nextInt();
         iEmployeeWage employeeWageList=new employeeWage(n);
         for(int counter=1;counter<=n;counter++)
         {
             System.out.println("Enter name of company:");
-            String company=scanner.next();
+            String company=sc.next();
             System.out.println("Enter rate per hour:");
-            int ratePerHour=scanner.nextInt();
+            int ratePerHour=sc.nextInt();
             System.out.println("Enter number of working days:");
-            int days=scanner.nextInt();
+            int days=sc.nextInt();
             System.out.println("Enter maximum working hours:");
-            int maxHours=scanner.nextInt();
+            int maxHours=sc.nextInt();
             employeeWageList.addCompany(company,ratePerHour,days,maxHours);
         }
         employeeWageList.computeWages();
+        System.out.println("Enter the name of company whose total wage is needed:");
+        String company=sc.next();
+        if(companyEmployeeWageMap.containsKey(company))
+            System.out.println("Total wage is:"+getTotalWage(company));
+        else
+            System.out.println("Invalid company name!");
     }
 }
-
